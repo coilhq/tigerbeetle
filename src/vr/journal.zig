@@ -17,12 +17,12 @@ pub const Journal = struct {
     pub const Read = struct {
         replica: *Replica,
         completion: Storage.Read,
-        callback: fn (self: *Replica, prepare: ?*Message, destination_replica: ?u16) void,
+        callback: fn (self: *Replica, prepare: ?*Message, destination_replica: ?u8) void,
 
         message: *Message,
         op: u64,
         checksum: u128,
-        destination_replica: ?u16,
+        destination_replica: ?u8,
     };
 
     pub const Write = struct {
@@ -82,7 +82,7 @@ pub const Journal = struct {
 
     allocator: *Allocator,
     storage: *Storage,
-    replica: u16,
+    replica: u8,
     size: u64,
     size_headers: u64,
     size_circular_buffer: u64,
@@ -119,7 +119,7 @@ pub const Journal = struct {
     pub fn init(
         allocator: *Allocator,
         storage: *Storage,
-        replica: u16,
+        replica: u8,
         size: u64,
         headers_count: u32,
     ) !Journal {
@@ -427,10 +427,10 @@ pub const Journal = struct {
     pub fn read_prepare(
         self: *Journal,
         replica: *Replica,
-        callback: fn (replica: *Replica, prepare: ?*Message, destination_replica: ?u16) void,
+        callback: fn (replica: *Replica, prepare: ?*Message, destination_replica: ?u8) void,
         op: u64,
         checksum: u128,
-        destination_replica: ?u16,
+        destination_replica: ?u8,
     ) void {
         if (op > replica.op) {
             self.read_prepare_notice(op, checksum, "beyond replica.op");
