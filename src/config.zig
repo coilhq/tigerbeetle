@@ -25,8 +25,8 @@ pub const port = 3001;
 /// Bind to the "127.0.0.1" loopback address to accept local connections as a safe default only.
 pub const address = "127.0.0.1";
 
-/// Where journal files should be persisted:
-pub const data_directory = "/var/lib/tigerbeetle";
+/// Where data files should be persisted by default:
+pub const directory = "/var/lib/tigerbeetle";
 
 /// The maximum number of accounts to store in memory:
 /// This impacts the amount of memory allocated at initialization by the server.
@@ -160,6 +160,11 @@ pub const sector_size = 4096;
 /// even after an application panic, since the kernel will mark dirty pages as clean, even
 /// when they were never written to disk.
 pub const direct_io = true;
+
+/// The maximum number of concurrent read I/O operations to allow at once.
+pub const io_depth_read = 8;
+/// The maximum number of concurrent write I/O operations to allow at once.
+pub const io_depth_write = 8;
 
 /// The number of milliseconds between each replica tick, the basic unit of time in TigerBeetle.
 /// Used to regulate heartbeats, retries and timeouts, all specified as multiples of a tick.
